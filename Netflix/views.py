@@ -10,9 +10,12 @@ import requests
 import tmdbsimple as tmdb
 
 # Create your views here.
+
+
 def Home(request):
     return render(request, 'Index.html')
-    
+
+
 def Register(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -41,6 +44,7 @@ def Register(request):
 
     return render(request, 'Register.html')
 
+
 def Login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -59,8 +63,9 @@ def Login(request):
         if user is not None:
             login(request, user)
             return redirect(reverse('Recommendations'))
-        
+
     return render(request, 'Login.html')
+
 
 @login_required(login_url='Login')
 def Logout(request):
@@ -68,37 +73,46 @@ def Logout(request):
     messages.success(request, '✅ Successfully Logged Out!')
     return redirect(reverse('Login'))
 
+
 @login_required(login_url='Login')
 def Recommendations(request):
-    now_playing_movies_request = requests.get("https://api.themoviedb.org/3/movie/now_playing?api_key=" + TMDB_API_KEY)
+    now_playing_movies_request = requests.get(
+        "https://api.themoviedb.org/3/movie/now_playing?api_key=" + TMDB_API_KEY)
     now_playing_movies_results = now_playing_movies_request.json()
     now_playing_movies = now_playing_movies_results['results']
 
-    top_rated_shows_request = requests.get("https://api.themoviedb.org/3/tv/top_rated?api_key=" + TMDB_API_KEY)
+    top_rated_shows_request = requests.get(
+        "https://api.themoviedb.org/3/tv/top_rated?api_key=" + TMDB_API_KEY)
     top_rated_shows_results = top_rated_shows_request.json()
     top_rated_shows = top_rated_shows_results['results']
 
-    top_rated_request = requests.get("https://api.themoviedb.org/3/movie/top_rated?api_key=" + TMDB_API_KEY)
+    top_rated_request = requests.get(
+        "https://api.themoviedb.org/3/movie/top_rated?api_key=" + TMDB_API_KEY)
     top_rated_results = top_rated_request.json()
     top_rated = top_rated_results['results']
 
-    popular_tv_request = requests.get("https://api.themoviedb.org/3/tv/popular?api_key=" + TMDB_API_KEY)
+    popular_tv_request = requests.get(
+        "https://api.themoviedb.org/3/tv/popular?api_key=" + TMDB_API_KEY)
     popular_tv_results = popular_tv_request.json()
     popular_tv = popular_tv_results['results']
 
-    upcoming_request = requests.get("https://api.themoviedb.org/3/movie/upcoming?api_key=" + TMDB_API_KEY)
+    upcoming_request = requests.get(
+        "https://api.themoviedb.org/3/movie/upcoming?api_key=" + TMDB_API_KEY)
     upcoming_results = upcoming_request.json()
     upcoming = upcoming_results['results']
 
-    return render(request, 'Recommendations.html', {'now_playing_movies':now_playing_movies, 'top_rated_shows':top_rated_shows, 'top_rated':top_rated, 'upcoming':upcoming, 'popular_tv':popular_tv})
+    return render(request, 'Recommendations.html', {'now_playing_movies': now_playing_movies, 'top_rated_shows': top_rated_shows, 'top_rated': top_rated, 'upcoming': upcoming, 'popular_tv': popular_tv})
+
 
 @login_required(login_url='Login')
 def MovieDetails(request, movie_id):
-    movie_details_request = requests.get("https://api.themoviedb.org/3/movie/" + str(movie_id) + "?api_key=" + TMDB_API_KEY)
+    movie_details_request = requests.get(
+        "https://api.themoviedb.org/3/movie/" + str(movie_id) + "?api_key=" + TMDB_API_KEY)
     movie_details_results = movie_details_request.json()
     movie_details = movie_details_results
 
-    movie_video_request = requests.get("https://api.themoviedb.org/3/movie/" + str(movie_id) + "/videos?api_key=" + TMDB_API_KEY)
+    movie_video_request = requests.get(
+        "https://api.themoviedb.org/3/movie/" + str(movie_id) + "/videos?api_key=" + TMDB_API_KEY)
     movie_video_results = movie_video_request.json()
     movie_videos = movie_video_results['results']
     newDict = dict()
@@ -106,15 +120,18 @@ def MovieDetails(request, movie_id):
         if movie['type'] == 'Trailer':
             newDict['key'] = movie['key']
 
-    return render(request, 'Movie Details.html', {'movie_details':movie_details, 'movie_id':movie_id, 'newDict':newDict})
+    return render(request, 'Movie Details.html', {'movie_details': movie_details, 'movie_id': movie_id, 'newDict': newDict})
+
 
 @login_required(login_url='Login')
 def TVDetails(request, tv_id):
-    tv_details_request = requests.get("https://api.themoviedb.org/3/tv/" + str(tv_id)  + "?api_key=" + TMDB_API_KEY)
+    tv_details_request = requests.get(
+        "https://api.themoviedb.org/3/tv/" + str(tv_id) + "?api_key=" + TMDB_API_KEY)
     tv_details_results = tv_details_request.json()
     tv_details = tv_details_results
 
-    tv_video_request = requests.get("https://api.themoviedb.org/3/tv/" + str(tv_id) + "/videos?api_key=" + TMDB_API_KEY)
+    tv_video_request = requests.get(
+        "https://api.themoviedb.org/3/tv/" + str(tv_id) + "/videos?api_key=" + TMDB_API_KEY)
     tv_video_results = tv_video_request.json()
     tv_shows = tv_video_results['results']
     newDict = dict()
@@ -122,4 +139,4 @@ def TVDetails(request, tv_id):
         if tv['type'] == 'Trailer':
             newDict['key'] = tv['key']
 
-    return render(request, 'TV Details.html', {'tv_details':tv_details, 'tv_id':tv_id, 'newDict':newDict})
+    return render(request, 'TV Details.html', {'tv_details': tv_details, 'tv_id': tv_id, 'newDict': newDict})

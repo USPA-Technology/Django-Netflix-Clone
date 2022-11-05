@@ -16,11 +16,21 @@ The user can perform the following functions:
 
 ## Installation / Setup instruction
 The application requires the following installations to operate:
+
 - pip
 - gunicorn
 - django
 - postgresql
 - requests
+
+## Please create a .env file, then add
+
+```
+SECRET_KEY=theKeyValue
+DEBUG=True
+ALLOWED_HOSTS=example.com
+TMDB_API_KEY=
+```
 
 ## Technologies Used
 - python 3.9.6
@@ -62,6 +72,6 @@ py manage.py runserver
 ## Known Bugs
 - There are no known bugs currently but pull requests are allowed incase you spot a bug
 
-© 2022 Steve Njuguna & Faith Njoki
+© 2022 Steve Njuguna & Faith Njoki & Thomas
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
