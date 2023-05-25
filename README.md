@@ -18,6 +18,7 @@ The user can perform the following functions:
 ## Installation / Setup instruction
 The application requires the following installations to operate:
 
+- sudo apt-get install libpq-dev python3-dev
 - pip
 - gunicorn
 - django

@@ -1,25 +1,208 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="Description" content="Enter your description here"/>
+    <meta name="Description" content="Enter your description here" />
     <!-- favicon -->
     <link rel="shortcut icon" href={% static "assets/img/favicon.png" %}>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Chakra Petch:300,300i,400,400i,600,600i,700,700i|Chakra Petch:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Chakra Petch:300,300i,400,400i,600,600i,700,700i|Chakra Petch:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
     <link rel="stylesheet" href={% static "assets/css/style.css" %}>
-    <title> LeoFlix </title>
+    <title> LeoFlix - {{ movie_details.original_title }}</title>
 </head>
+
 <body>
 
     {% block content %} {% endblock %}
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+
+
+    <script>
+        // (1) LEO OBSERVER: load JavaScript code for [Example.com]
+        (function () {
+            // Observer ID
+            window.leoObserverId = "74rtY7eCqrfiEHh0huZPvG";
+
+            // CDN of JS
+            window.leoObserverLogDomain = "obs.example.com";
+            window.leoObserverCdnDomain = "leocdp.example.com/public";
+
+            // Data Touchpoint Metadata 
+            window.srcTouchpointName = encodeURIComponent(document.title);
+            window.srcTouchpointUrl = encodeURIComponent(location.href);
+
+            // the main proxy LEO JS
+            var leoproxyJsPath = '/js/leo-observer/leo.proxy.min.js';
+            var src = location.protocol + '//' + window.leoObserverCdnDomain + leoproxyJsPath;
+            var jsNode = document.createElement('script');
+            jsNode.async = true; jsNode.defer = true; jsNode.src = src;
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jsNode, s);
+        })();
+
+        var parseDataUTM = window.parseDataUTM || function () {
+            if (location.search.indexOf('utm_') > 0) {
+                var search = location.search.substring(1);
+                var json = decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g, '":"');
+                return JSON.parse('{"' + json + '"}');
+            }
+        }
+
+        // (2) LEO OBSERVER: set-up all event tracking functions
+        var LeoObserver = {};
+
+        // (2.1) function to track View Event "AdImpression"
+        LeoObserver.recordEventAdImpression = function (eventData) {
+            eventData = eventData ? eventData : {};
+            LeoObserverProxy.recordViewEvent("ad-impression", eventData);
+        }
+
+        // (2.2) function to track View Event "PageView"
+        LeoObserver.recordEventPageView = function (eventData) {
+            eventData = eventData ? eventData : {};
+            LeoObserverProxy.recordViewEvent("page-view", eventData);
+        }
+
+        // (2.3) function to track View Event "AcceptTracking"
+        LeoObserver.recordEventAcceptTracking = function (eventData) {
+            eventData = eventData ? eventData : {};
+            LeoObserverProxy.recordViewEvent("accept-tracking", eventData);
+        }
+
+        // (2.4) function to track View Event "EngagedSession"
+        LeoObserver.recordEventEngagedSession = function (eventData) {
+            eventData = eventData ? eventData : {};
+            LeoObserverProxy.recordViewEvent("engaged-session", eventData);
+        }
+
+        // (2.5) function to track Action Event "Like"
+        LeoObserver.recordEventLike = function (eventData) {
+            eventData = eventData ? eventData : {};
+            LeoObserverProxy.recordActionEvent("like", eventData);
+        }
+
+        // (2.6) function to track View Event "ContentView"
+        LeoObserver.recordEventContentView = function (eventData) {
+            eventData = eventData ? eventData : {};
+            LeoObserverProxy.recordViewEvent("content-view", eventData);
+        }
+
+        // (2.7) function to track Action Event "Search"
+        LeoObserver.recordEventSearch = function (eventData) {
+            eventData = eventData ? eventData : {};
+            LeoObserverProxy.recordActionEvent("search", eventData);
+        }
+
+        // (2.8) function to track View Event "ItemView"
+        LeoObserver.recordEventItemView = function (eventData) {
+            eventData = eventData ? eventData : {};
+            LeoObserverProxy.recordViewEvent("item-view", eventData);
+        }
+
+        // (2.9) function to track Action Event "ClickDetails"
+        LeoObserver.recordEventClickDetails = function (eventData) {
+            eventData = eventData ? eventData : {};
+            LeoObserverProxy.recordActionEvent("click-details", eventData);
+        }
+
+        // (2.10) function to track Action Event "PlayVideo"
+        LeoObserver.recordEventPlayVideo = function (eventData) {
+            eventData = eventData ? eventData : {};
+            LeoObserverProxy.recordActionEvent("play-video", eventData);
+        }
+
+        // (2.11) function to track Action Event "SubmitContact"
+        LeoObserver.recordEventSubmitContact = function (eventData) {
+            eventData = eventData ? eventData : {};
+            LeoObserverProxy.recordActionEvent("submit-contact", eventData);
+        }
+
+        // (2.12) function to track Action Event "FileDownload"
+        LeoObserver.recordEventFileDownload = function (eventData) {
+            eventData = eventData ? eventData : {};
+            LeoObserverProxy.recordActionEvent("file-download", eventData);
+        }
+
+        // (2.13) function to track Action Event "RegisterAccount"
+        LeoObserver.recordEventRegisterAccount = function (eventData) {
+            eventData = eventData ? eventData : {};
+            LeoObserverProxy.recordActionEvent("register-account", eventData);
+        }
+
+        // (2.14) function to track Action Event "UserLogin"
+        LeoObserver.recordEventUserLogin = function (eventData) {
+            eventData = eventData ? eventData : {};
+            LeoObserverProxy.recordActionEvent("user-login", eventData);
+        }
+
+        // (2.15) function to track Action Event "ShortLinkClick"
+        LeoObserver.recordEventShortLinkClick = function (eventData) {
+            eventData = eventData ? eventData : {};
+            LeoObserverProxy.recordActionEvent("short-link-click", eventData);
+        }
+
+        // (2.16) function to track Action Event "AskQuestion"
+        LeoObserver.recordEventAskQuestion = function (eventData) {
+            eventData = eventData ? eventData : {};
+            LeoObserverProxy.recordActionEvent("ask-question", eventData);
+        }
+
+        // (2.17) function to track Action Event "ProductTrial"
+        LeoObserver.recordEventProductTrial = function (eventData) {
+            eventData = eventData ? eventData : {};
+            LeoObserverProxy.recordActionEvent("product-trial", eventData);
+        }
+
+        // (2.18) function to track Conversion Event "Purchase"
+        LeoObserver.recordEventPurchase = function (eventData, shoppingCartItems, transactionId, transactionValue, currencyCode) {
+            // need 5 params
+            eventData = typeof eventData === "object" ? eventData : {};
+            shoppingCartItems = typeof shoppingCartItems === "object" ? shoppingCartItems : [];
+            transactionId = typeof transactionId === "string" ? transactionId : "";
+            transactionValue = typeof transactionValue === "number" ? transactionValue : 0;
+            currencyCode = typeof currencyCode === "string" ? currencyCode : "USD";
+            LeoObserverProxy.recordConversionEvent("purchase", eventData, transactionId, shoppingCartItems, transactionValue, currencyCode);
+        }
+
+        // (3) LEO OBSERVER is ready
+        function leoObserverProxyReady(session) {
+            // auto tracking when LEO CDP JS is ready
+            LeoObserver.recordEventPageView(parseDataUTM());
+
+            // set tracking LEO visitor ID into all a[href] nodes
+            LeoObserverProxy.synchLeoVisitorId(function (vid) {
+                var aNodes = document.querySelectorAll('a');
+                [].forEach.call(aNodes, function (aNode) {
+                    var hrefUrl = aNode.href;
+                    if (hrefUrl) {
+                        if (hrefUrl.indexOf('?') > 0) { hrefUrl += ("&leosyn=" + vid); }
+                        else { hrefUrl += ("?leosyn=" + vid); }
+                        aNode.href = hrefUrl;
+                    }
+                });
+
+                if (typeof window.synchLeoCdpToGA4 === "function") {
+                    window.synchLeoCdpToGA4(vid)
+                }
+            });
+        }
+    </script>
+
 </body>
+
 </html>
