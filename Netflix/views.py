@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from Core.settings import TMDB_API_KEY
+import json 
 import requests
 import tmdbsimple as tmdb
 
@@ -13,7 +14,7 @@ import tmdbsimple as tmdb
 
 
 def Home(request):
-    return render(request, 'Index.html')
+    return render(request, 'Index.html',{'page_title':"Homepage"})
 
 
 def Register(request):
@@ -41,8 +42,8 @@ def Register(request):
 
         messages.success(request, '✅ Regristration Successful!')
         return redirect('Register')
-
-    return render(request, 'Register.html')
+    page_title = "Register new user account"
+    return render(request, 'Register.html',{'page_title':page_title})
 
 
 def Login(request):
@@ -63,8 +64,8 @@ def Login(request):
         if user is not None:
             login(request, user)
             return redirect(reverse('Recommendations'))
-
-    return render(request, 'Login.html')
+    page_title = "User Login"
+    return render(request, 'Login.html', {'page_title':page_title})
 
 
 @login_required(login_url='Login')
@@ -101,7 +102,8 @@ def Recommendations(request):
     upcoming_results = upcoming_request.json()
     upcoming = upcoming_results['results']
 
-    return render(request, 'Recommendations.html', {'now_playing_movies': now_playing_movies, 'top_rated_shows': top_rated_shows, 'top_rated': top_rated, 'upcoming': upcoming, 'popular_tv': popular_tv})
+    page_title =  'Movie Recommendations'
+    return render(request, 'Recommendations.html', {'page_title':page_title,'now_playing_movies': now_playing_movies, 'top_rated_shows': top_rated_shows, 'top_rated': top_rated, 'upcoming': upcoming, 'popular_tv': popular_tv})
 
 
 @login_required(login_url='Login')
@@ -120,7 +122,10 @@ def MovieDetails(request, movie_id):
         if movie['type'] == 'Trailer':
             newDict['key'] = movie['key']
 
-    return render(request, 'Movie Details.html', {'movie_details': movie_details, 'movie_id': movie_id, 'newDict': newDict})
+    # json_object = json.dumps(movie_details, indent = 4) 
+    # print(json_object)
+    page_title =  movie_details['original_title']
+    return render(request, 'Movie Details.html', {'page_title':page_title,'movie_details': movie_details, 'movie_id': movie_id, 'newDict': newDict})
 
 
 @login_required(login_url='Login')
@@ -139,4 +144,5 @@ def TVDetails(request, tv_id):
         if tv['type'] == 'Trailer':
             newDict['key'] = tv['key']
 
-    return render(request, 'TV Details.html', {'tv_details': tv_details, 'tv_id': tv_id, 'newDict': newDict})
+    page_title =  'TVDetails'
+    return render(request, 'TV Details.html', {'page_title':page_title,'tv_details': tv_details, 'tv_id': tv_id, 'newDict': newDict})
