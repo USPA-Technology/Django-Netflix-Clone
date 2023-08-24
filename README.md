@@ -48,11 +48,11 @@ cd Django-Netflix-Clone
 ```
 3. create a virtual env
 ```
-py -m venv env
+python -m venv env
 ```
 4. activate env
 ```
-env\scripts\activate
+source ./env/bin/activate
 ```
 5. Open CMD & Install Dependancies
 ```
@@ -60,15 +60,15 @@ pip install -r requirements.txt
 ```
 6. Make Migrations
 ```
-py manage.py makemigrations
+python manage.py makemigrations
 ```
 7. Migrate DB
 ```
-py manage.py migrate
+python manage.py migrate
 ```
 8. Run Application
 ```
-py manage.py runserver
+python manage.py runserver 10000
 ```
 
 ## Known Bugs
