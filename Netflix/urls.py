@@ -10,4 +10,8 @@ urlpatterns = [
     path('recommendations', views.Recommendations, name='Recommendations'),
     path('tv/<int:tv_id>/details', views.TVDetails, name='TVDetails'),
     path('movie/<int:movie_id>/details', views.MovieDetails, name='MovieDetails'),
+
+    # --- Chatbot APIs for jQuery ---
+    path('api/chatbot/message', views.ChatbotMessage, name='ChatbotMessage'),
+    path('api/chatbot/recommendations', views.ChatbotRecommendations, name='ChatbotRecommendations'),
 ]

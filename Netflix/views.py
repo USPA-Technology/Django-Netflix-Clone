@@ -10,6 +10,10 @@ import json
 import requests
 import tmdbsimple as tmdb
 
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+
 # Create your views here.
 
 
@@ -146,3 +150,28 @@ def TVDetails(request, tv_id):
 
     page_title =  'TVDetails'
     return render(request, 'TV Details.html', {'page_title':page_title,'tv_details': tv_details, 'tv_id': tv_id, 'newDict': newDict})
+
+
+
+@csrf_exempt
+def ChatbotMessage(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            user_message = data.get('message', '')
+            # Simple example — replace with your chatbot logic
+            reply = f"Bot: I received your message - '{user_message}'"
+            return JsonResponse({'reply': reply})
+        except json.JSONDecodeError:
+            return JsonResponse({'error': 'Invalid JSON'}, status=400)
+    return JsonResponse({'error': 'POST method required'}, status=405)
+
+@csrf_exempt
+def ChatbotRecommendations(request):
+    # Example static recommendations — replace with your real recommendation logic
+    recs = [
+        {"title": "Inception", "type": "movie"},
+        {"title": "Stranger Things", "type": "tv"},
+        {"title": "The Witcher", "type": "tv"}
+    ]
+    return JsonResponse({'recommendations': recs})

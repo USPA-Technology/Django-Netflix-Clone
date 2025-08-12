@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Recommendation Chatbot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap 3.7 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        body { background-color: #f8f8f8; }
+        .chat-container {
+            max-width: 500px; margin: 30px auto; background: #fff;
+            border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex; flex-direction: column; height: 80vh;
+        }
+        .chat-header {
+            background: #5bc0de; color: #fff; padding: 15px;
+            border-top-left-radius: 6px; border-top-right-radius: 6px;
+            text-align: center; font-size: 18px;
+        }
+        .chat-messages {
+            flex: 1; overflow-y: auto; padding: 15px;
+        }
+        .chat-bubble {
+            padding: 10px 14px; margin-bottom: 10px;
+            border-radius: 16px; max-width: 80%;
+            line-height: 1.4;
+        }
+        .bot {
+            background: #f1f1f1; align-self: flex-start;
+        }
+        .user {
+            background: #5bc0de; color: white; align-self: flex-end;
+        }
+        .chat-input {
+            display: flex; border-top: 1px solid #ddd;
+        }
+        .chat-input input {
+            flex: 1; border: none; padding: 10px; outline: none;
+        }
+        .chat-input button {
+            background: #5bc0de; border: none; color: #fff; padding: 0 20px;
+        }
+        img.movie-poster {
+            max-width: 100px; border-radius: 4px; margin-right: 10px;
+        }
+        .movie-info {
+            display: flex; align-items: flex-start;
+        }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="chat-header">
+        🎥 Movie Recommendation Bot
+    </div>
+    <div class="chat-messages" id="chatMessages">
+        <div class="chat-bubble bot">
+            Hi! Tell me your favorite genre and I’ll recommend a movie.
+        </div>
+        <div class="chat-bubble user">
+            Suggest me a sci-fi movie
+        </div>
+        <div class="chat-bubble bot">
+            <div class="movie-info">
+                <img src="https://m.media-amazon.com/images/I/51EG732BV3L.jpg" class="movie-poster">
+                <div>
+                    <strong>The Matrix (1999)</strong><br>
+                    Rating: ⭐ 8.7/10<br>
+                    A computer hacker learns about the true nature of reality and his role in the war against its controllers.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="chat-input">
+        <input type="text" id="userInput" placeholder="Type your message...">
+        <button id="sendBtn">Send</button>
+    </div>
+</div>
+
+<!-- jQuery + Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script>
+    $(function(){
+        $("#sendBtn").click(function(){
+            let message = $("#userInput").val().trim();
+            if(message){
+                $("#chatMessages").append(`<div class="chat-bubble user">${message}</div>`);
+                $("#userInput").val("");
+                $("#chatMessages").scrollTop($("#chatMessages")[0].scrollHeight);
+                
+                // Simulate bot response
+                setTimeout(function(){
+                    $("#chatMessages").append(`
+                        <div class="chat-bubble bot">
+                            Sorry, I’m just a mockup now 😅, but in the real app, I’d suggest movies for "${message}".
+                        </div>
+                    `);
+                    $("#chatMessages").scrollTop($("#chatMessages")[0].scrollHeight);
+                }, 800);
+            }
+        });
+
+        // Allow pressing Enter
+        $("#userInput").keypress(function(e){
+            if(e.which === 13){
+                $("#sendBtn").click();
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
